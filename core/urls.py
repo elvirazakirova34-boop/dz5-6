@@ -16,10 +16,21 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from drf_yasg.views import get_schema_view
+from drf_yasg import openapi
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/v1/orders/', include('apps.orders.urls')),
     path('api-auth/', include('rest_framework.urls')),
+]
+
+schema_view = get_schema_view(
+   openapi.Info(title="Coffee API", default_version='v1'),
+   public=True,
+)
+
+urlpatterns += [
+   path('swagger/', schema_view.with_ui('swagger', cache_timeout=0)),
 ]
